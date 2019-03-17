@@ -6,7 +6,7 @@ from operator import mul
 N = int(input())
 S = input()
 
-# 解は(各アルファベットの出現回数+1)の総積
+# 解は（(各アルファベットの出現回数+1)の総積）- 1
 ans = (
     reduce(
         mul,
