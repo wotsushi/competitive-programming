@@ -1,11 +1,10 @@
 #include <iostream>
 using namespace std;
 
-int H, W;
-int h, w;
-
 int main() {
   // 入力
+  int H, W;
+  int h, w;
   cin >> H >> W;
   cin >> h >> w;
 
