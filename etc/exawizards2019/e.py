@@ -44,7 +44,7 @@ class ModInt:
     def __pow__(self, other):
         return (
             ModInt(pow(self.x, other.x, MOD)) if isinstance(other, ModInt) else
-            ModInt(self.x * pow(other, MOD - 2, MOD))
+            ModInt(pow(self.x, other, MOD))
         )
 
     __radd__ = __add__
