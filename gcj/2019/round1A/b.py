@@ -14,7 +14,7 @@ for x in range(T):
         )
         Y = list(map(int, input().split()))
         D &= {s for s in range(sum(Y), M + 1, q)}
-    # Dはシングルトンでなる
+    # Dはシングルトンである
     ans = next(iter(D))
     # 出力
     print(ans, flush=True)
