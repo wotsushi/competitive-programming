@@ -4,9 +4,9 @@ from itertools import product
 N, M = map(int, input().split())
 k, s = zip(
     *(
-        (int(k), list(map(int, s.split())))
+        (k, s)
         for _ in range(M)
-        for k, s in [input().split(maxsplit=1)]
+        for k, *s in [map(int, input().split())]
     )
 )
 p = list(map(int, input().split()))
