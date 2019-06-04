@@ -1,5 +1,10 @@
 # Tenka1 Programmer Contest 2019
 
+## B
+カテゴリ: 実装
+
+やるだけ。
+
 ## C
 カテゴリ: 累積和
 
