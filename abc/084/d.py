@@ -15,19 +15,16 @@ for i in range(2, 10**5 + 1):
 dp = list(
     accumulate(
         range(10**5 + 1),
-        lambda acc, i: (
+        lambda acc, i:
             acc + 1 if is_prime[i] and is_prime[(i + 1) // 2] else
             acc
-        )
     )
 )
 
 # 累積和を用いて各クエリに回答する
 ans = '\n'.join(
-    map(
-        str,
-        (dp[b] - dp[a - 1] for a, b in zip(l, r))
-    )
+    str(dp[b] - dp[a - 1])
+    for a, b in zip(l, r)
 )
 
 # 出力

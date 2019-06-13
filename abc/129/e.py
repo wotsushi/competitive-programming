@@ -68,10 +68,9 @@ class ModInt:
 
 
 ans = reduce(
-    lambda acc, t: (
+    lambda acc, t:
         ModInt(3)**t[0] + 2 * acc if t[1] == '1' else
-        acc
-    ),
+        acc,
     enumerate(reversed(L)),
     ModInt(1)
 )

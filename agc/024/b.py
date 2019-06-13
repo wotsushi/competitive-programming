@@ -10,7 +10,7 @@ INF = 10**15
 Q = {p: i for i, p in enumerate(P, 1)}
 
 # j以上の整数を末尾に移動する場合に、先頭に移動すべき整数の個数を求める
-ans = reduce(
+ans, _ = reduce(
     lambda acc, j: (
         min(
             acc[0],
@@ -21,7 +21,7 @@ ans = reduce(
     ),
     range(2, N + 2),
     (INF, 0)
-)[0]
+)
 
 # 出力
 print(ans)

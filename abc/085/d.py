@@ -7,14 +7,19 @@ a, b = zip(*(map(int, input().split()) for _ in range(N)))
 
 # 投げるべき刀を強力なものから投げる。その後、振るべき刀を降り続ける。
 m = max(a)
-c = sorted(filter(lambda x: x > m, b), reverse=True)
-ans = (
+c = sorted(
+    filter(lambda x: x > m, b),
+    reverse=True
+)
+ans, _ = (
     reduce(
-        lambda acc, e: (acc[0] + 1, acc[1] + e) if acc[1] < H else acc,
+        lambda acc, e:
+            (acc[0] + 1, acc[1] + e) if acc[1] < H else
+            acc,
         c,
         (0, 0)
-    )[0] if sum(c) >= H else
-    len(c) + ceil((H - sum(c)) / m)
+    ) if sum(c) >= H else
+    (len(c) + ceil((H - sum(c)) / m), 0)
 )
 
 # 出力
