@@ -1,5 +1,11 @@
 # ABC131
 
+## C
+カテゴリ: 数学
+
+f(x) = x - (floor(x / C) + floor(x / D) - floor(x / lcm(C, D))) とする。
+解は f(B) - f(A - 1) である。
+
 ## D
 カテゴリ: 貪欲法
 
