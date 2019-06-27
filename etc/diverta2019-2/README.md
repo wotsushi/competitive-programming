@@ -1,5 +1,12 @@
 # diverta 2019 Programming Contest2
 
+## B
+カテゴリ: 考察
+
+f(p, q) を (p, q) = (x_i - x_j, y_i - y_j) を満たす組 (i, j) の個数とする (i != j)。
+fの最大値をMとする。
+解は N - M である。
+
 ## C
 カテゴリ: 構築
 
