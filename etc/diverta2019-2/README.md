@@ -1,5 +1,10 @@
 # diverta 2019 Programming Contest2
 
+## A
+カテゴリ: 数学
+
+解は K = 1 ならば 0, そうでなければ N - K である。
+
 ## B
 カテゴリ: 考察
 
