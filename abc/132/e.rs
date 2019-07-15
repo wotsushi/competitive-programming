@@ -57,7 +57,7 @@ fn main() {
     dp[S] = 0;
     while !q.is_empty() {
         let i = q.pop_front().unwrap();
-        for (x, w) in G[i].clone() {
+        for &(x, w) in G[i].iter() {
             if dp[x] == -1 {
                 q.push_back(x);
                 dp[x] = dp[i] + w;
