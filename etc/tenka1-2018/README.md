@@ -1,5 +1,10 @@
 # Tenka1 Programmer Contest 2018
 
+## B
+カテゴリ: 実装
+
+やるだけ
+
 ## C
 カテゴリ: 数学
 
