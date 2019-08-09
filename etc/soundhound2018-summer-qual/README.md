@@ -1,5 +1,10 @@
 # SoundHound Inc. Programming Contest 2018 -Masters Tournament-
 
+## A
+カテゴリ: 実装
+
+やるだけ
+
 ## B
 カテゴリ: 実装
 
