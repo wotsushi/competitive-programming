@@ -22,7 +22,7 @@ fn main() {
         a
     };
 
-    let wall = (0..(W + 2)).map(|_| "#").collect::<Vec<_>>().join("");
+    let wall = (0..(W + 2)).map(|_| "#").collect::<String>();
     let ans = format!(
         "{}\n{}\n{}",
         wall,
@@ -31,7 +31,7 @@ fn main() {
                 "#{}#",
                 r.iter()
                     .map(std::string::ToString::to_string)
-                    .collect::<Vec<_>>().join("")
+                    .collect::<String>()
             ))
             .collect::<Vec<_>>()
             .join("\n"),

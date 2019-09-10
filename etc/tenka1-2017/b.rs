@@ -1,56 +1,27 @@
-macro_rules! get {
-      ($t:ty) => {
-          {
-              let mut line: String = String::new();
-              std::io::stdin().read_line(&mut line).unwrap();
-              line.trim().parse::<$t>().unwrap()
-          }
-      };
-      ($($t:ty),*) => {
-          {
-              let mut line: String = String::new();
-              std::io::stdin().read_line(&mut line).unwrap();
-              let mut iter = line.split_whitespace();
-              (
-                  $(iter.next().unwrap().parse::<$t>().unwrap(),)*
-              )
-          }
-      };
-      ($t:ty; $n:expr) => {
-          (0..$n).map(|_|
-              get!($t)
-          ).collect::<Vec<_>>()
-      };
-      ($($t:ty),*; $n:expr) => {
-          (0..$n).map(|_|
-              get!($($t),*)
-          ).collect::<Vec<_>>()
-      };
-      ($t:ty ;;) => {
-          {
-              let mut line: String = String::new();
-              std::io::stdin().read_line(&mut line).unwrap();
-              line.split_whitespace()
-                  .map(|t| t.parse::<$t>().unwrap())
-                  .collect::<Vec<_>>()
-          }
-      };
-      ($t:ty ;; $n:expr) => {
-          (0..$n).map(|_| get!($t ;;)).collect::<Vec<_>>()
-      };
-}
+#![allow(non_snake_case)]
+#![allow(unused_variables)]
+#![allow(dead_code)]
 
 fn main() {
-    // 入力
-    let N = get!(i64);
-    let (A, B): (Vec<_>, Vec<_>) = get!(i64, i64; N).into_iter().unzip();
+    let N: usize = {
+        let mut line: String = String::new();
+        std::io::stdin().read_line(&mut line).unwrap();
+        line.trim().parse().unwrap()
+    };
+    let (A, B): (Vec<i64>, Vec<i64>) = {
+        let (mut A, mut B) = (vec![], vec![]);
+        for _ in 0..N {
+            let mut line: String = String::new();
+            std::io::stdin().read_line(&mut line).unwrap();
+            let mut iter = line.split_whitespace();
+            A.push(iter.next().unwrap().parse().unwrap());
+            B.push(iter.next().unwrap().parse().unwrap());
+        }
+        (A, B)
+    };
 
-    let mut AB = A.iter()
-        .zip(B.iter())
-        .collect::<Vec<_>>();
-    AB.sort_by_key(|&(a, _)| -a);
-    let (a, b) = AB[0];
-    let ans = a + b;
-    // 出力
+    let i = (0..N).max_by_key(|&i| A[i]).unwrap();
+    let ans = A[i] + B[i];
+
     println!("{}", ans);
 }

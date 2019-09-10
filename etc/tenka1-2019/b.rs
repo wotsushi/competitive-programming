@@ -1,55 +1,31 @@
-macro_rules! get {
-      ($t:ty) => {
-          {
-              let mut line: String = String::new();
-              std::io::stdin().read_line(&mut line).unwrap();
-              line.trim().parse::<$t>().unwrap()
-          }
-      };
-      ($($t:ty),*) => {
-          {
-              let mut line: String = String::new();
-              std::io::stdin().read_line(&mut line).unwrap();
-              let mut iter = line.split_whitespace();
-              (
-                  $(iter.next().unwrap().parse::<$t>().unwrap(),)*
-              )
-          }
-      };
-      ($t:ty; $n:expr) => {
-          (0..$n).map(|_|
-              get!($t)
-          ).collect::<Vec<_>>()
-      };
-      ($($t:ty),*; $n:expr) => {
-          (0..$n).map(|_|
-              get!($($t),*)
-          ).collect::<Vec<_>>()
-      };
-      ($t:ty ;;) => {
-          {
-              let mut line: String = String::new();
-              std::io::stdin().read_line(&mut line).unwrap();
-              line.split_whitespace()
-                  .map(|t| t.parse::<$t>().unwrap())
-                  .collect::<Vec<_>>()
-          }
-      };
-      ($t:ty ;; $n:expr) => {
-          (0..$n).map(|_| get!($t ;;)).collect::<Vec<_>>()
-      };
-}
+#![allow(non_snake_case)]
+#![allow(unused_variables)]
+#![allow(dead_code)]
 
 fn main() {
-    // 入力
-    let N = get!(i64);
-    let S = get!(String).chars().collect::<Vec<_>>();
-    let K = get!(usize);
+    let N: usize = {
+        let mut line: String = String::new();
+        std::io::stdin().read_line(&mut line).unwrap();
+        line.trim().parse().unwrap()
+    };
+    let S: Vec<char> = {
+        let mut line: String = String::new();
+        std::io::stdin().read_line(&mut line).unwrap();
+        line.trim().chars().collect()
+    };
+    let K: usize = {
+        let mut line: String = String::new();
+        std::io::stdin().read_line(&mut line).unwrap();
+        line.trim().parse().unwrap()
+    };
 
-    let p = S[K - 1];
-    let ans = S.into_iter().map(|c| if c != p { '*' } else { c })
+    let ans = S.iter()
+        .map(|&c| if c == S[K - 1] {
+            c.to_string()
+        } else {
+            "*".to_string()
+        })
         .collect::<String>();
 
-    // 出力
     println!("{}", ans);
 }

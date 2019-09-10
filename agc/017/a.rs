@@ -1,52 +1,31 @@
-macro_rules! get {
-    (Vec<$t:ty>) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            line.split_whitespace()
-                .map(|t| t.parse::<$t>().unwrap())
-                .collect::<Vec<_>>()
-        }
-    };
-    ($t:ty) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            line.trim().parse::<$t>().unwrap()
-        }
-    };
-    ($($t:ty),*) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            let mut iter = line.split_whitespace();
-            (
-                $(iter.next().unwrap().parse::<$t>().unwrap(),)*
-            )
-        }
-    };
-    ($t:ty; $n:expr) => {
-        (0..$n).map(|_|
-            get!($t)
-        ).collect::<Vec<_>>()
-    };
-    ($($t:ty),*; $n:expr) => {
-        (0..$n).map(|_|
-            get!($($t),*)
-        ).collect::<Vec<_>>()
-    };
-}
+#![allow(non_snake_case)]
+#![allow(unused_variables)]
+#![allow(dead_code)]
 
 fn main() {
-    let (N, P) = get!(usize, i64);
-    let A = get!(Vec<usize>);
+    let (N, P): (usize, i64) = {
+        let mut line: String = String::new();
+        std::io::stdin().read_line(&mut line).unwrap();
+        let mut iter = line.split_whitespace();
+        (
+            iter.next().unwrap().parse().unwrap(),
+            iter.next().unwrap().parse().unwrap()
+        )
+    };
+    let A: Vec<i64> = {
+        let mut line: String = String::new();
+        std::io::stdin().read_line(&mut line).unwrap();
+        line.split_whitespace()
+            .map(|x| x.parse().unwrap())
+            .collect()
+    };
 
-    // Aがすべて偶数ならば (1-P) 2^N
-    // そうでなければ 2^{N-1}
-    let ans = if A.iter().all(|a| a % 2 == 0) {
-        (1 - P) * 2_i64.pow(N as u32)
+    // すべて偶数ならば不可能 or 任意
+    // 奇数が含まれるならば、最後の奇数の袋だけ工夫すればよい
+    let ans = if A.iter().all(|&a| a % 2 == 0) {
+        (1 - P) * 2i64.pow(N as u32)
     } else {
-        2_i64.pow((N - 1) as u32)
+        2i64.pow((N - 1) as u32)
     };
 
     println!("{}", ans);
