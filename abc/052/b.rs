@@ -1,57 +1,23 @@
-macro_rules! get {
-    (Vec<$t:ty>) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            line.split_whitespace()
-                .map(|t| t.parse::<$t>().unwrap())
-                .collect::<Vec<_>>()
-        }
-    };
-    ($t:ty) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            line.trim().parse::<$t>().unwrap()
-        }
-    };
-    ($($t:ty),*) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            let mut iter = line.split_whitespace();
-            (
-                $(iter.next().unwrap().parse::<$t>().unwrap(),)*
-            )
-        }
-    };
-    ($t:ty; $n:expr) => {
-        (0..$n).map(|_|
-            get!($t)
-        ).collect::<Vec<_>>()
-    };
-    ($($t:ty),*; $n:expr) => {
-        (0..$n).map(|_|
-            get!($($t),*)
-        ).collect::<Vec<_>>()
-    };
-}
-
-use std::cmp;
+#![allow(non_snake_case)]
+#![allow(unused_variables)]
+#![allow(dead_code)]
 
 fn main() {
-    let N = get!(usize);
-    let S = get!(String);
+    let N: usize = {
+        let mut line: String = String::new();
+        std::io::stdin().read_line(&mut line).unwrap();
+        line.trim().parse().unwrap()
+    };
+    let S: Vec<char> = {
+        let mut line: String = String::new();
+        std::io::stdin().read_line(&mut line).unwrap();
+        line.trim().chars().collect()
+    };
 
-    let (ans, _) = S.chars().fold(
-        (0, 0),
-        |(m, acc), c| if c == 'I' {
-            let x = acc + 1;
-            (cmp::max(m, x), x)
-        } else {
-            (m, acc - 1)
-        }
-    );
+    let (ans, _) = S.iter().fold((0, 0), |(res, x), &s| {
+        let y = if s == 'I' { x + 1 } else { x - 1 };
+        (std::cmp::max(res, y), y)
+    });
 
     println!("{}", ans);
 }

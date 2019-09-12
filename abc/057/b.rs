@@ -1,49 +1,44 @@
-macro_rules! get {
-    (Vec<$t:ty>) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            line.split_whitespace()
-                .map(|t| t.parse::<$t>().unwrap())
-                .collect::<Vec<_>>()
-        }
+#![allow(non_snake_case)]
+#![allow(unused_variables)]
+#![allow(dead_code)]
+
+fn main() {
+    let (N, M): (usize, usize) = {
+        let mut line: String = String::new();
+        std::io::stdin().read_line(&mut line).unwrap();
+        let mut iter = line.split_whitespace();
+        (
+            iter.next().unwrap().parse().unwrap(),
+            iter.next().unwrap().parse().unwrap()
+        )
     };
-    ($t:ty) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            line.trim().parse::<$t>().unwrap()
-        }
-    };
-    ($($t:ty),*) => {
-        {
+    let (a, b): (Vec<i64>, Vec<i64>) = {
+        let (mut a, mut b) = (vec![], vec![]);
+        for _ in 0..N {
             let mut line: String = String::new();
             std::io::stdin().read_line(&mut line).unwrap();
             let mut iter = line.split_whitespace();
-            (
-                $(iter.next().unwrap().parse::<$t>().unwrap(),)*
-            )
+            a.push(iter.next().unwrap().parse().unwrap());
+            b.push(iter.next().unwrap().parse().unwrap());
         }
+        (a, b)
     };
-    ($t:ty; $n:expr) => {
-        (0..$n).map(|_|
-            get!($t)
-        ).collect::<Vec<_>>()
+    let (c, d): (Vec<i64>, Vec<i64>) = {
+        let (mut c, mut d) = (vec![], vec![]);
+        for _ in 0..M {
+            let mut line: String = String::new();
+            std::io::stdin().read_line(&mut line).unwrap();
+            let mut iter = line.split_whitespace();
+            c.push(iter.next().unwrap().parse().unwrap());
+            d.push(iter.next().unwrap().parse().unwrap());
+        }
+        (c, d)
     };
-    ($($t:ty),*; $n:expr) => {
-        (0..$n).map(|_|
-            get!($($t),*)
-        ).collect::<Vec<_>>()
-    };
-}
 
-fn main() {
-    let (N, M) = get!(usize, usize);
-    let (a, b): (Vec<i64>, Vec<i64>) = get!(i64, i64; N).into_iter().unzip();
-    let (c, d): (Vec<i64>, Vec<i64>) = get!(i64, i64; M).into_iter().unzip();
+    let ans = (0..N).map(|i|
+        (1 + (0..M).min_by_key(|&j| (a[i] - c[j]).abs() + (b[i] - d[j]).abs()).unwrap()).to_string()
+    ).collect::<Vec<_>>()
+    .join("\n");
 
-    for (x, y) in a.iter().zip(b.iter()) {
-        let ans = (0..M).min_by_key(|&i| (x - c[i]).abs() + (y - d[i]).abs()).unwrap() + 1;
-        println!("{}", ans);
-    }
+    println!("{}", ans);
 }
