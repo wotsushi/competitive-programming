@@ -1,53 +1,31 @@
-macro_rules! get {
-    ($t:ty) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            line.trim().parse::<$t>().unwrap()
-        }
+#![allow(non_snake_case)]
+#![allow(unused_variables)]
+#![allow(dead_code)]
+
+fn main() {
+    let (N, H, W): (usize, i64, i64) = {
+        let mut line: String = String::new();
+        std::io::stdin().read_line(&mut line).unwrap();
+        let mut iter = line.split_whitespace();
+        (
+            iter.next().unwrap().parse().unwrap(),
+            iter.next().unwrap().parse().unwrap(),
+            iter.next().unwrap().parse().unwrap()
+        )
     };
-    ($($t:ty),*) => {
-        {
+    let (A, B): (Vec<i64>, Vec<i64>) = {
+        let (mut A, mut B) = (vec![], vec![]);
+        for _ in 0..N {
             let mut line: String = String::new();
             std::io::stdin().read_line(&mut line).unwrap();
             let mut iter = line.split_whitespace();
-            (
-                $(iter.next().unwrap().parse::<$t>().unwrap(),)*
-            )
+            A.push(iter.next().unwrap().parse().unwrap());
+            B.push(iter.next().unwrap().parse().unwrap());
         }
+        (A, B)
     };
-    ($t:ty; $n:expr) => {
-        (0..$n).map(|_|
-            get!($t)
-        ).collect::<Vec<_>>()
-    };
-    ($($t:ty),*; $n:expr) => {
-        (0..$n).map(|_|
-            get!($($t),*)
-        ).collect::<Vec<_>>()
-    };
-    ($t:ty ;;) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            line.split_whitespace()
-                .map(|t| t.parse::<$t>().unwrap())
-                .collect::<Vec<_>>()
-        }
-    };
-    ($t:ty ;; $n:expr) => {
-        (0..$n).map(|_| get!($t ;;)).collect::<Vec<_>>()
-    };
-}
 
-fn main() {
-    let (N, H, W) = get!(i64, i64, i64);
-    let (A, B): (Vec<_>, Vec<_>) = get!(i64, i64; N).into_iter().unzip();
-
-    let ans = A.iter()
-        .zip(B.iter())
-        .filter(|&(&a, &b)| a >= H && b >= W)
-        .count();
+    let ans = (0..N).filter(|&i| A[i] >= H && B[i] >= W).count();
 
     println!("{}", ans);
 }

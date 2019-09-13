@@ -1,55 +1,15 @@
-macro_rules! get {
-    (Vec<$t:ty>) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            line.split_whitespace()
-                .map(|t| t.parse::<$t>().unwrap())
-                .collect::<Vec<_>>()
-        }
-    };
-    ($t:ty) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            line.trim().parse::<$t>().unwrap()
-        }
-    };
-    ($($t:ty),*) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            let mut iter = line.split_whitespace();
-            (
-                $(iter.next().unwrap().parse::<$t>().unwrap(),)*
-            )
-        }
-    };
-    ($t:ty; $n:expr) => {
-        (0..$n).map(|_|
-            get!($t)
-        ).collect::<Vec<_>>()
-    };
-    ($($t:ty),*; $n:expr) => {
-        (0..$n).map(|_|
-            get!($($t),*)
-        ).collect::<Vec<_>>()
-    };
-}
+#![allow(non_snake_case)]
+#![allow(unused_variables)]
+#![allow(dead_code)]
 
 fn main() {
-    let N = get!(usize);
+    let N: i64 = {
+        let mut line: String = String::new();
+        std::io::stdin().read_line(&mut line).unwrap();
+        line.trim().parse().unwrap()
+    };
 
-    let ans = N.to_string()
-        .chars()
-        .map(
-            |d| if d == '2' {
-                1
-            } else {
-                0
-            }
-        )
-        .sum::<usize>();
+    let ans = N.to_string().chars().filter(|&c| c == '2').count();
 
     println!("{}", ans);
 }
