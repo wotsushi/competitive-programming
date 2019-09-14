@@ -1,61 +1,29 @@
-macro_rules! get {
-    ($t:ty) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            line.trim().parse::<$t>().unwrap()
-        }
-    };
-    ($($t:ty),*) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            let mut iter = line.split_whitespace();
-            (
-                $(iter.next().unwrap().parse::<$t>().unwrap(),)*
-            )
-        }
-    };
-    ($t:ty; $n:expr) => {
-        (0..$n).map(|_|
-            get!($t)
-        ).collect::<Vec<_>>()
-    };
-    ($($t:ty),*; $n:expr) => {
-        (0..$n).map(|_|
-            get!($($t),*)
-        ).collect::<Vec<_>>()
-    };
-    ($t:ty ;;) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            line.split_whitespace()
-                .map(|t| t.parse::<$t>().unwrap())
-                .collect::<Vec<_>>()
-        }
-    };
-    ($t:ty ;; $n:expr) => {
-        (0..$n).map(|_| get!($t ;;)).collect::<Vec<_>>()
-    };
-}
-
-use std::collections::HashSet;
+#![allow(non_snake_case)]
+#![allow(unused_variables)]
+#![allow(dead_code)]
 
 fn main() {
-    let N = get!(i64);
-    let A = get!(i64; N);
+    let N: usize = {
+        let mut line: String = String::new();
+        std::io::stdin().read_line(&mut line).unwrap();
+        line.trim().parse().unwrap()
+    };
+    let A: Vec<i64> = (0..N)
+        .map(|_| {
+                let mut line: String = String::new();
+                std::io::stdin().read_line(&mut line).unwrap();
+                line.trim().parse().unwrap()
+        })
+        .collect();
 
-    // Setで各数字を管理する
-    let mut S = HashSet::new();
-    for a in A {
-        if S.contains(&a) {
-            S.remove(&a);
-        } else {
-            S.insert(a);
+    let ans = {
+        let mut s = std::collections::HashSet::new();
+        for &a in &A {
+            if s.contains(&a) { s.remove(&a); }
+            else { s.insert(a); }
         }
-    }
-    let ans = S.len();
+        s.len()
+    };
 
     println!("{}", ans);
 }
