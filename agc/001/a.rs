@@ -1,51 +1,27 @@
-macro_rules! get {
-    (Vec<$t:ty>) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            line.split_whitespace()
-                .map(|t| t.parse::<$t>().unwrap())
-                .collect::<Vec<_>>()
-        }
-    };
-    ($t:ty) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            line.trim().parse::<$t>().unwrap()
-        }
-    };
-    ($($t:ty),*) => {
-        {
-            let mut line: String = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            let mut iter = line.split_whitespace();
-            (
-                $(iter.next().unwrap().parse::<$t>().unwrap(),)*
-            )
-        }
-    };
-    ($t:ty; $n:expr) => {
-        (0..$n).map(|_|
-            get!($t)
-        ).collect::<Vec<_>>()
-    };
-    ($($t:ty),*; $n:expr) => {
-        (0..$n).map(|_|
-            get!($($t),*)
-        ).collect::<Vec<_>>()
-    };
-}
-
-use std::cmp;
+#![allow(non_snake_case)]
+#![allow(unused_variables)]
+#![allow(dead_code)]
 
 fn main() {
-    let N = get!(usize);
-    let mut L = get!(Vec<usize>);
+    let N: usize = {
+        let mut line: String = String::new();
+        std::io::stdin().read_line(&mut line).unwrap();
+        line.trim().parse().unwrap()
+    };
+    let L: Vec<usize> = {
+        let mut line: String = String::new();
+        std::io::stdin().read_line(&mut line).unwrap();
+        line.split_whitespace()
+            .map(|x| x.parse().unwrap())
+            .collect()
+    };
 
-    L.sort();
-    // 貪欲に、小さい串同士を組み合わせて使えばよい
-    let ans = (0..N).map(|i| cmp::min(L[2 * i], L[2 * i + 1])).sum::<usize>();
+    let R = {
+        let mut R = L.clone();
+        R.sort();
+        R
+    };
+    let ans = (0..N).map(|i| R[2 * i]).sum::<usize>();
 
     println!("{}", ans);
 }
