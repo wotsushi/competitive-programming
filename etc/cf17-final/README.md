@@ -1,5 +1,12 @@
 # CODE FESTIVAL 2017 Final
 
+## B
+カテゴリ: 構築
+
+abcabcのように並べる必要があることがポイント。
+Sに含まれるaの個数をA, bの個数をB, cの個数をCとする。
+max(A, B, C) - min(A, B, C) <= 1 ならば YESとなる。
+
 ## C
 カテゴリ: 全探索
 
