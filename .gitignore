@@ -4,3 +4,9 @@ target/
 Cargo.lock
 Cargo.toml
 .vscode/
+asakatsu/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
