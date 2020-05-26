@@ -1,40 +1,116 @@
+#pragma region template 2.4
 #include <bits/stdc++.h>
 using namespace std;
+template <typename T>
+using pq_asc = priority_queue<T, vector<T>, greater<T>>;
 typedef long long ll;
 typedef vector<ll> vi;
+typedef vector<vi> vvi;
+typedef pair<ll, ll> ii;
+typedef vector<ii> vii;
+typedef vector<string> vs;
 #define REP(i, n) for (ll i = 0; i < (n); ++i)
+#define REP1(i, n) for (ll i = 1; i <= (n); ++i)
+#define FOR(i, a) for (auto &i : a)
+#define CH(f, x, y) x = f(x, y)
+#define IN(T, x) \
+    T x;         \
+    cin >> x;
+#define AIN(T, a, n) \
+    vector<T> a(n);  \
+    FOR(i, a)        \
+    cin >> i;
+#define A2IN(T1, a, T2, b, n) \
+    vector<T1> a(n);          \
+    vector<T2> b(n);          \
+    REP(i, n)                 \
+    cin >> a[i] >> b[i];
 #define OUT(x) cout << (x) << endl;
-#define OUTA(a, n) \
-    REP(i, n) { cout << (a[i]) << (i == n - 1 ? "\n" : " "); }
+#define FOUT(x) cout << fixed << setprecision(15) << (x) << endl;
 #define ALL(a) (a).begin(), (a).end()
 #define SORT(a) sort(ALL(a))
 #define RSORT(a) \
     SORT(a);     \
     reverse(ALL(a))
+#define DUMP(x) cout << #x << " = " << (x) << endl;
+#define DUMPA(a)          \
+    cout << #a << " = {"; \
+    JOUT(ALL(a), ", ", cout) << "}" << endl;
+
+template <typename T>
+ostream &JOUT(T s, T e, string sep = " ", ostream &os = cout)
+{
+    if (s != e)
+    {
+        os << *s;
+        ++s;
+    }
+    while (s != e)
+    {
+        os << sep << *s;
+        ++s;
+    }
+    return os;
+}
+
+ostream &YES(bool cond, string yes = "Yes", string no = "No", ostream &os = cout)
+{
+    if (cond)
+    {
+        os << yes << endl;
+    }
+    else
+    {
+        os << no << endl;
+    }
+    return os;
+}
+
+template <typename T1, typename T2>
+ostream &operator<<(ostream &os, const pair<T1, T2> &p)
+{
+    os << '(' << p.first << ", " << p.second << ')';
+    return os;
+}
+
+template <typename T>
+ostream &operator<<(ostream &os, const vector<T> &v)
+{
+    os << '[';
+    JOUT(ALL(v), ", ", os) << ']';
+    return os;
+}
 
 const ll INF = 1e18;
 const ll MOD = 1e9 + 7;
-
-ll N;
-ll NG1;
-ll NG2;
-ll NG3;
+#pragma endregion template
 
 int main()
 {
-    cin >> N;
-    cin >> NG1;
-    cin >> NG2;
-    cin >> NG3;
-
-    vi dp = vi(N + 3, INF);
-    auto f = [&](ll k) { return k != NG1 and k != NG2 and k != NG3; };
-    dp[N] = f(N) ? 0 : INF;
-    for (ll i = N - 1; i >= 0; --i)
+    IN(ll, N);
+    AIN(ll, NG, 3);
+    vi dp(N + 1);
+    FOR(ng, NG)
     {
-        dp[i] = f(i) ? min({dp[i + 1], dp[i + 2], dp[i + 3]}) + 1 : INF;
+        if (ng <= N)
+        {
+            dp[ng] = INF;
+        }
     }
-    string ans = dp[0] <= 100 ? "YES" : "NO";
-
-    OUT(ans);
+    REP1(i, N)
+    {
+        if (dp[i] == 0)
+        {
+            dp[i] = dp[i - 1] + 1;
+            REP1(j, 2)
+            {
+                ll k = i - j - 1;
+                if (k >= 0 and dp[k] < INF)
+                {
+                    dp[i] = dp[k] + 1;
+                }
+            }
+        }
+    }
+    YES(dp[N] <= 100, "YES", "NO");
 }
