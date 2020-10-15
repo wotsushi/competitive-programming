@@ -18,7 +18,7 @@ int main() {
   }
   mint ans = 1;
   for (auto [_, k] : p) {
-    ans *= (k + 1);
+    ans *= k + 1;
   }
   out(ans.val());
 }
